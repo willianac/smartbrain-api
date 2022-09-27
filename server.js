@@ -29,7 +29,7 @@ app.get('/profile/:id', (req, res) => handleGetProfile(req, res, db))
 app.put('/image', (req, res) => handleImage(req, res, db))
 app.post('/imageUrl', (req, res) => handleClarifaiCall(req, res))
 
-const port = 3000
+const port = process.env.PORT || 3000
 app.listen(port, ()=> {
   console.log(`app is running on port ${port}`)
 })
