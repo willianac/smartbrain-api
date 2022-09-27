@@ -13,12 +13,13 @@ app.use(express.json())
 app.use(cors())
 
 const db = knex({
+    // change here to connect to your own database
     client: 'pg',
     connection: {
       host : '127.0.0.1',
-      user : 'postgres',
-      password : 'test',
-      database : 'smartbraindb'
+      user : 'your_user',
+      password : '',
+      database : 'your_database'
     }
   }); 
 
