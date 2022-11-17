@@ -1,4 +1,4 @@
-const handleRegister = (req, res, db, bcrypt)=> {
+const handleRegister = (req, res, db, bcrypt, jwt)=> {
     const { name, email, password } = req.body
     const hash = bcrypt.hashSync(password);
     db.transaction(trx => {
@@ -16,7 +16,10 @@ const handleRegister = (req, res, db, bcrypt)=> {
             })
             .into('users')
             .returning('*')
-            .then(user => res.json(user[0]))  
+            .then(user => {
+                const token = jwt.sign({userId : user[0].id}, 'WILL2009', {expiresIn : 300})
+                res.json({...user[0], auth : true, token})
+            })  
         })
         .then(trx.commit)
         .catch(trx.rollback)

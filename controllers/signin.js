@@ -1,4 +1,4 @@
-const handleSignIn = (req, res, db, bcrypt) => {
+const handleSignIn = (req, res, db, bcrypt, jwt) => {
     const { email, password } = req.body
 
     if(!email || !password) return res.json('Incorrect form submit')
@@ -8,7 +8,10 @@ const handleSignIn = (req, res, db, bcrypt) => {
         if(isPasswordValid) {
            db.select('*').from('users')
            .where('email', '=', email)
-           .then(user => res.json(user[0]))
+           .then(user => {
+                const token = jwt.sign({userId : user[0].id}, 'WILL2009', {expiresIn : 300})
+                res.json({...user[0], auth : true, token})
+           })
         } else {
             res.status(400).json('Wrong Credentials')
         }
