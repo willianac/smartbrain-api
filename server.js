@@ -16,16 +16,13 @@ app.use(express.json())
 app.use(cors())
 
 const db = knex({
-  client: 'pg',
+  client : 'pg',
   connection : {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
+    connectionString: process.env.DATABASE_URL
   }
 })
 
-app.get('/', (req, res) => { res.send('Everything is right!') })
+app.get('/', (req, res) => { res.send('Everything is working!') })
 app.post('/signin', (req, res) => handleSignIn(req, res, db, bcrypt, jwt))
 app.post('/register', (req, res) => handleRegister(req, res, db, bcrypt, jwt))
 app.get('/profile/:id', (req, res) => handleGetProfile(req, res, db))
@@ -33,7 +30,7 @@ app.put('/image', (req, res) => handleImage(req, res, db))
 app.post('/imageUrl', (req, res) => handleClarifaiCall(req, res))
 app.get('/ranking', (req, res) => handleRanking(req, res, db))
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 app.listen(port, ()=> {
-  console.log(`app is running on port ${port}`)
+  console.log(`Yoo! app is running on port ${port}`)
 })
